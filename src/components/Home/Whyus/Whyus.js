@@ -35,55 +35,57 @@ const Whyus = () => {
                 </Typography>
 
                 {
-                    
-  services?.length > 1 && (
-    <Grid container spacing={3}>
-      {
-        ourServices?.map((service) => (
-          <Grid key={service.id} className={service.class} item xs={12} md={6} lg={4}>
-            <Card sx={{
-              maxWidth: 345, transition: '0.5s all ease-in-out', mb: 2, ':hover': {
-                boxShadow: 10,
-                color: '#e91e63'
-              }, 'img': { transition: '0.5s all ease-in-out' },
-              ':hover img': {
-                transform: 'scale(1.1)'
-              }
-            }}>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  height="240"
-                  image={service?.service_img}
-                  alt="card image of service"
-                />
-                <CardContent sx={{ display: 'flex', mx: 'auto', my: 2 }}>
-                  <Avatar
-                    alt="service icon"
-                    src={service?.icon}
-                    sx={{ width: 40, height: 40, mx: 'auto' }}
-                  />
-                  <Typography gutterBottom variant="h5" component="div">
-                    Consult for {service.treatment}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-              <CardActions style={{ justifyContent: 'center' }}>
-                <Typography sx={{ mx: 2, p: 2, textAlign: "end" }}>
-                  <Link className='text-style' to="/services" color="primary">
-                    See More Details...
-                  </Link>
-                </Typography>
-              </CardActions>
-            </Card>
-          </Grid>
-        ))
-      }
-    </Grid>
-  )
-}
+                    services?.length > 1 && <Grid container spacing={3}>
 
-                        
+                        {
+                            ourServices?.map((service) => (
+                                <Grid key={service.id} className={service.class} item xs={12} md={6} lg={4}>
+
+                                    <Card sx={{
+                                        maxWidth: 345, transition: '0.5s all ease-in-out', mb: 2, ':hover': {
+                                            boxShadow: 10,
+                                            color: '#e91e63'
+                                        }
+                                        , 'img': { transition: '0.5s all ease-in-out' },
+                                        ':hover img': {
+                                            transform: 'scale(1.1)'
+                                        }
+                                    }}>
+                                        <CardActionArea>
+                                            <CardMedia
+                                                component="img"
+                                                height="240"
+                                                image={service?.service_img}
+                                                alt="card image of service"
+                                            />
+                                            <CardContent sx={{ display: 'flex', mx: 'auto', my: 2 }}>
+                                                <Avatar
+                                                    alt="service icon"
+                                                    src={service?.icon}
+                                                    sx={{
+                                                        width: 40, height: 40, mx: 'auto'
+                                                    }}
+                                                />
+                                                <Typography gutterBottom variant="h5" component="div">
+                                                    Consult for {service.treatment}
+                                                </Typography>
+                                            </CardContent>
+                                        </CardActionArea>
+                                        <CardActions style={{justifyContent: 'center'}}>
+                                            <Typography sx={{ mx: 2, p: 2, textAlign: "end" }} >
+                                                <Link className='text-style' to="/services" color="primary">
+                                                    See More Details...
+                                                </Link>
+                                            </Typography>
+                                        </CardActions>
+                                    </Card>
+
+
+
+
+                                </Grid>
+                            ))
+                        }
                     </Grid>}
 
                 <Typography sx={{ mx: 2, p: 2, textAlign: "end" }} >
