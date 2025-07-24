@@ -12,13 +12,10 @@ const Whyus = () => {
     let services = mainData[0];
 
     // handle undifined problem in mapping data
-    useEffect(() => {
-        if (services.length > 0) {
-            const serv = services?.slice(0, 3);
+  useEffect(() => {
+        if (services && services.length > 0) {
+            const serv = services.slice(0, 3);
             setOurServices(serv);
-        }
-        else {
-            <LinearProgress color="secondary" />
         }
     }, [services]);
 

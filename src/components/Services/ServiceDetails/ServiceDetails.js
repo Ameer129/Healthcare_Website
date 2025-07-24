@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Box,
@@ -12,7 +12,6 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
 import { HashLink } from "react-router-hash-link";
 import { useParams } from "react-router-dom";
 import useData from "../../../Hooks/useData";
@@ -21,21 +20,20 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 const ServiceDetails = () => {
   const { servId } = useParams();
-  const [service, setServices] = useState([]);
+  const [service, setServices] = useState(null);
   const mainData = useData();
-  let services = mainData[0];
+  const services = mainData[0];
 
-  // handle undifined problem in mapping data
   useEffect(() => {
-    if (services.length !== 1) {
-      const servDetails = services?.find(
+    if (services && services.length > 0) {
+      const servDetails = services.find(
         (service) => service.id === parseInt(servId)
       );
       setServices(servDetails);
     } else {
-      console.log("waitting for data");
+      console.log("waiting for data");
     }
-  }, [services]);
+  }, [services, servId]); // ✅ added servId here
 
   return (
     <Box
@@ -56,80 +54,69 @@ const ServiceDetails = () => {
           Breakthrough in Comprehensive, Flexible Care Delivery Models
         </Typography>
 
-        {services?.length > 1 && (
+        {service && (
           <Grid container spacing={3}>
-            {
-              <Grid key={service.id} item xs={12} md={12} lg={12}>
-                <Card
-                  sx={{
-                    mx: "auto",
-                    maxWidth: 550,
-                    transition: "0.5s all ease-in-out",
-                    ":hover": {
-                      boxShadow: 10,
-                    },
-                    img: { transition: "0.5s all ease-in-out" },
-                    ":hover img": {
-                      transform: "scale(1.05)",
-                    },
-                  }}
-                >
-                  <CardActionArea>
-                    <CardMedia
-                      component="img"
-                      width="100%"
-                      height="550px"
-                      image={service?.service_img}
-                      alt="card image of service"
+            <Grid key={service.id} item xs={12}>
+              <Card
+                sx={{
+                  mx: "auto",
+                  maxWidth: 550,
+                  transition: "0.5s all ease-in-out",
+                  ":hover": {
+                    boxShadow: 10,
+                  },
+                  img: { transition: "0.5s all ease-in-out" },
+                  ":hover img": {
+                    transform: "scale(1.05)",
+                  },
+                }}
+              >
+                <CardActionArea>
+                  <CardMedia
+                    component="img"
+                    height="550"
+                    image={service?.service_img}
+                    alt="card image of service"
+                  />
+                  <CardContent sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+                    <Avatar
+                      alt="service icon"
+                      src={service?.icon}
+                      sx={{ width: 40, height: 40 }}
                     />
-                    <CardContent sx={{ display: "flex" }}>
-                      <Avatar
-                        width="50px"
-                        hight="50px"
-                        alt="service icon"
-                        src={service?.icon}
-                        sx={{
-                          width: 40,
-                          height: 40,
-                        }}
-                      />
-                      <Typography variant="h5" component="div">
-                        Consult for {service.treatment}
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                  <CardActions>
-                    <Typography
-                      sx={{ p: 2 }}
-                      align="justify"
-                      gutterBottom
-                      variant="p"
-                      component="div"
-                    >
-                      {service.description}
+                    <Typography variant="h5" component="div">
+                      Consult for {service.treatment}
                     </Typography>
-                  </CardActions>
-                  <Typography gutterBottom variant="h6" component="div">
-                    Consult fee {service.price}
+                  </CardContent>
+                </CardActionArea>
+                <CardActions>
+                  <Typography
+                    sx={{ p: 2 }}
+                    align="justify"
+                    component="p"
+                  >
+                    {service.description}
                   </Typography>
-                  <HashLink smooth to="/appointment" className="text-style">
-                    <Button
-                      sx={{ mt: 2, mb: 2 }}
-                      variant="contained"
-                      className="CheckButton"
-                    >
-                      Make an Appointment
-                      <AddCircleIcon />
-                    </Button>
-                  </HashLink>
-                </Card>
-              </Grid>
-            }
+                </CardActions>
+                <Typography gutterBottom variant="h6" component="div">
+                  Consult fee: ₹{service.price}
+                </Typography>
+                <HashLink smooth to="/appointment" className="text-style">
+                  <Button
+                    sx={{ mt: 2, mb: 2 }}
+                    variant="contained"
+                    className="CheckButton"
+                  >
+                    Make an Appointment
+                    <AddCircleIcon sx={{ ml: 1 }} />
+                  </Button>
+                </HashLink>
+              </Card>
+            </Grid>
           </Grid>
         )}
 
         <HashLink smooth to="/home#home" className="text-style">
-          {" "}
           <Button
             variant="contained"
             color="primary"
